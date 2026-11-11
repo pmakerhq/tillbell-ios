@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Swift Package Manager and Xcode
+/.build
+/Packages
+.swiftpm/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+DerivedData/
+*.xcuserstate
+
+# Credentials and signing material: never commit these
+.netrc
+.env
+.env.*
+*.p8
+*.p12
+*.cer
+*.mobileprovision
