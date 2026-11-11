@@ -62,9 +62,10 @@ final class TillbellStore {
         case .purchased(let transaction):
             return PurchaseReply(result: .purchased, productId: transaction.productId, purchaseToken: transaction.jws)
         case .pending:
-            // The contract's "pending" carries a purchase token, and StoreKit has none until the
-            // purchase is approved. The server learns about it from App Store Server Notifications.
-            return PurchaseReply(result: .error, message: "The purchase is waiting for approval (Ask to Buy)")
+            // Waiting for approval (Ask to Buy): StoreKit has no transaction yet, so the reply has
+            // no purchase token. The server records the purchase from App Store Server
+            // Notifications once it is approved.
+            return PurchaseReply(result: .pending, productId: request.productId)
         case .canceled:
             return PurchaseReply(result: .canceled)
         case .unavailable(let message):

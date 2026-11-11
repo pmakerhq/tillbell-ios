@@ -73,7 +73,8 @@ enum PurchaseResult: String, Encodable {
     case unavailable, error
 }
 
-/// `purchase` reply. `productId` and `purchaseToken` are set for purchased and pending.
+/// `purchase` reply. `productId` and `purchaseToken` are set for purchased; pending has a
+/// `productId` and no token, StoreKit gives none until the purchase is approved.
 struct PurchaseReply: Encodable, Equatable {
     let result: PurchaseResult
     var productId: String?

@@ -113,12 +113,10 @@ final class TillbellStoreTests: XCTestCase {
         }
     }
 
-    func testAPurchaseWaitingForApprovalIsAnErrorWithoutAToken() async {
+    func testAPurchaseWaitingForApprovalIsPendingWithoutAToken() async {
         client.outcome = .pending
         let reply = await store.purchase(request("premium.monthly"))
-        XCTAssertEqual(reply.result, .error)
-        XCTAssertNil(reply.purchaseToken)
-        XCTAssertNotNil(reply.message)
+        XCTAssertEqual(reply, PurchaseReply(result: .pending, productId: "premium.monthly"))
     }
 
     func testAProductAlreadySubscribedIsAlreadyOwnedWithoutTheSheet() async {
