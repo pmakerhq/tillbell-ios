@@ -1,0 +1,445 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2FF4F3304E3E793077DE0935 /* Tillbell.storekit in Resources */ = {isa = PBXBuildFile; fileRef = E5BF9CD7119BFDFF95A38A40 /* Tillbell.storekit */; };
+		80954430D5C6F62CD6FE95D3 /* Tillbell in Frameworks */ = {isa = PBXBuildFile; productRef = E16F954C9F03951C9440D61A /* Tillbell */; };
+		8B3E32C0C119E16854D0DA3C /* TillbellExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5323BFE590630F2F851C1C /* TillbellExampleApp.swift */; };
+		D1E444D0CCEDF8DEEB94C0F9 /* StoreKitIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1D99AEE62144A1520E9C31 /* StoreKitIntegrationTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		10BC775A2EFCA1010EBFDED7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEC04B897F20E7CC78812896 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F664BF5592A788CF291C8E97;
+			remoteInfo = TillbellExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1E2D6564BDF4B4BFA31F7617 /* tiny-shaping-waffle-08821d6d */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "tiny-shaping-waffle-08821d6d"; path = ..; sourceTree = SOURCE_ROOT; };
+		2C1D99AEE62144A1520E9C31 /* StoreKitIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitIntegrationTests.swift; sourceTree = "<group>"; };
+		37F39FABDE8515964355A7AF /* TillbellExampleTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TillbellExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		58F53439540A021BCD8164F3 /* TillbellExample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TillbellExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B5323BFE590630F2F851C1C /* TillbellExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TillbellExampleApp.swift; sourceTree = "<group>"; };
+		E5BF9CD7119BFDFF95A38A40 /* Tillbell.storekit */ = {isa = PBXFileReference; path = Tillbell.storekit; sourceTree = "<group>"; };
+		E9FDC441A711B35B5DDEB669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		481BAAE5D00723CE3E0B8FDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80954430D5C6F62CD6FE95D3 /* Tillbell in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		544F6AEBFBF0D87638D1FE6C /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2C1D99AEE62144A1520E9C31 /* StoreKitIntegrationTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		58D7AE6154C5234F1960059E /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				1E2D6564BDF4B4BFA31F7617 /* tiny-shaping-waffle-08821d6d */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		BC8344D55ECBC6C8C702C94D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				E9FDC441A711B35B5DDEB669 /* Info.plist */,
+				6B5323BFE590630F2F851C1C /* TillbellExampleApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D77430ECAB61CF99A6C43ABA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				58F53439540A021BCD8164F3 /* TillbellExample.app */,
+				37F39FABDE8515964355A7AF /* TillbellExampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F49052C538FA6AC4D40142AD = {
+			isa = PBXGroup;
+			children = (
+				E5BF9CD7119BFDFF95A38A40 /* Tillbell.storekit */,
+				BC8344D55ECBC6C8C702C94D /* App */,
+				58D7AE6154C5234F1960059E /* Packages */,
+				544F6AEBFBF0D87638D1FE6C /* Tests */,
+				D77430ECAB61CF99A6C43ABA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		55EF0C3263C8E89663BF74D3 /* TillbellExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6BB6E8BB4DF8D01E4B8C1D3 /* Build configuration list for PBXNativeTarget "TillbellExampleTests" */;
+			buildPhases = (
+				7F64A87D81CA5C7163BFC857 /* Sources */,
+				F5888A04E796FF6CFBD321EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C869EE0001699DE0D5D8B389 /* PBXTargetDependency */,
+			);
+			name = TillbellExampleTests;
+			packageProductDependencies = (
+			);
+			productName = TillbellExampleTests;
+			productReference = 37F39FABDE8515964355A7AF /* TillbellExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F664BF5592A788CF291C8E97 /* TillbellExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87F47C73A1B2247EA20E8125 /* Build configuration list for PBXNativeTarget "TillbellExample" */;
+			buildPhases = (
+				F0A15FB98ED6FAC21BB9AD12 /* Sources */,
+				481BAAE5D00723CE3E0B8FDB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TillbellExample;
+			packageProductDependencies = (
+				E16F954C9F03951C9440D61A /* Tillbell */,
+			);
+			productName = TillbellExample;
+			productReference = 58F53439540A021BCD8164F3 /* TillbellExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BEC04B897F20E7CC78812896 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = C5981A52636657B6A68567BA /* Build configuration list for PBXProject "TillbellExample" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F49052C538FA6AC4D40142AD;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5EAD1276DC36BEC767B6B20C /* XCLocalSwiftPackageReference ".." */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D77430ECAB61CF99A6C43ABA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F664BF5592A788CF291C8E97 /* TillbellExample */,
+				55EF0C3263C8E89663BF74D3 /* TillbellExampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F5888A04E796FF6CFBD321EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FF4F3304E3E793077DE0935 /* Tillbell.storekit in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7F64A87D81CA5C7163BFC857 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1E444D0CCEDF8DEEB94C0F9 /* StoreKitIntegrationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0A15FB98ED6FAC21BB9AD12 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B3E32C0C119E16854D0DA3C /* TillbellExampleApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C869EE0001699DE0D5D8B389 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F664BF5592A788CF291C8E97 /* TillbellExample */;
+			targetProxy = 10BC775A2EFCA1010EBFDED7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		28EB7A622F145BF82BED48B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pmaker.tillbell.TillbellExample;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		5F5D62D706778FE8B68115D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		6445CF7C4788F111E895B18F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pmaker.tillbell.TillbellExampleTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TillbellExample.app/TillbellExample";
+			};
+			name = Release;
+		};
+		8CEBEA9FAEFB75D7A9379CBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pmaker.tillbell.TillbellExampleTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TillbellExample.app/TillbellExample";
+			};
+			name = Debug;
+		};
+		AF321D2AE45B19AE4FBF5576 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pmaker.tillbell.TillbellExample;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B58FFA6C797D2E888222E6DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		87F47C73A1B2247EA20E8125 /* Build configuration list for PBXNativeTarget "TillbellExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF321D2AE45B19AE4FBF5576 /* Debug */,
+				28EB7A622F145BF82BED48B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C5981A52636657B6A68567BA /* Build configuration list for PBXProject "TillbellExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B58FFA6C797D2E888222E6DB /* Debug */,
+				5F5D62D706778FE8B68115D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E6BB6E8BB4DF8D01E4B8C1D3 /* Build configuration list for PBXNativeTarget "TillbellExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CEBEA9FAEFB75D7A9379CBE /* Debug */,
+				6445CF7C4788F111E895B18F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		5EAD1276DC36BEC767B6B20C /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E16F954C9F03951C9440D61A /* Tillbell */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Tillbell;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BEC04B897F20E7CC78812896 /* Project object */;
+}

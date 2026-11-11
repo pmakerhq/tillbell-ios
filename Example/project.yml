@@ -1,0 +1,51 @@
+# Generates TillbellExample.xcodeproj: `cd Example && xcodegen`.
+name: TillbellExample
+options:
+  bundleIdPrefix: com.pmaker.tillbell
+  deploymentTarget:
+    iOS: "15.0"
+packages:
+  Tillbell:
+    path: ..
+targets:
+  TillbellExample:
+    type: application
+    platform: iOS
+    sources: [App]
+    dependencies:
+      - package: Tillbell
+        product: Tillbell
+    info:
+      path: App/Info.plist
+      properties:
+        UILaunchScreen: {}
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+  TillbellExampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - Tests
+      - path: Tillbell.storekit
+        buildPhase: resources
+    # The package is linked into the app only: the tests reach it through the host app.
+    dependencies:
+      - target: TillbellExample
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+schemes:
+  TillbellExample:
+    build:
+      targets:
+        TillbellExample: all
+        TillbellExampleTests: [test]
+    run:
+      config: Debug
+      storeKitConfiguration: Tillbell.storekit
+    test:
+      config: Debug
+      targets: [TillbellExampleTests]
