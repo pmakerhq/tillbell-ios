@@ -52,21 +52,22 @@ protocol StoreClient {
 /// [StoreClient] backed by StoreKit 2.
 @MainActor
 final class AppStoreClient: StoreClient {
-    private let updates: Task<Void, Never>
-
     init() {
-        // Purchases completed outside the purchase sheet (Ask to Buy approved, renewals, a
-        // purchase interrupted by the app being killed) arrive here, unfinished ones once at
-        // launch. The server hears about them from App Store Server Notifications; the device
-        // only finishes them, or StoreKit would deliver them again on every launch.
-        updates = Task.detached {
+        // Subscription purchases completed outside the purchase sheet (Ask to Buy approved,
+        // renewals, a purchase interrupted by the app being killed) arrive here, unfinished ones
+        // as soon as this listener starts: with the first paywall message, since the client is
+        // created lazily. Until then StoreKit keeps them, nothing is lost. The server hears about
+        // them from App Store Server Notifications; the device only finishes them. Other product
+        // types belong to the host app's own StoreKit code and are left alone.
+        // The client lives as long as the process, so the task is never cancelled.
+        Task.detached {
             for await result in Transaction.updates {
-                if case .verified(let transaction) = result { await transaction.finish() }
+                if case .verified(let transaction) = result, transaction.productType == .autoRenewable {
+                    await transaction.finish()
+                }
             }
         }
     }
-
-    deinit { updates.cancel() }
 
     var canMakePayments: Bool { AppStore.canMakePayments }
 
@@ -112,8 +113,12 @@ final class AppStoreClient: StoreClient {
     func subscriptions() async -> [StoreTransaction] {
         var owned: [StoreTransaction] = []
         for await result in Transaction.currentEntitlements {
-            // An unverified transaction is not reported: the server would reject it anyway.
-            guard case .verified(let transaction) = result, transaction.productType == .autoRenewable else { continue }
+            // Unverified and family-shared transactions are not reported: neither carries this
+            // customer's appAccountToken, so the server would reject them anyway, and a shared
+            // subscription must not stop the customer from buying their own.
+            guard case .verified(let transaction) = result,
+                  transaction.productType == .autoRenewable,
+                  transaction.ownershipType == .purchased else { continue }
             owned.append(StoreTransaction(productId: transaction.productID, jws: result.jwsRepresentation))
         }
         return owned

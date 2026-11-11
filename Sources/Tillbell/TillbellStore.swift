@@ -23,9 +23,9 @@ final class TillbellStore {
         guard client.canMakePayments else { return ProductsReply(result: .unavailable, message: cannotPayMessage) }
 
         do {
-            let found = Dictionary(try await client.products(ids: ids).map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-            let priced = plans.compactMap { plan in
-                plan.basePlanId == nil ? found[plan.productId].map { PricedPlan(productId: plan.productId, basePlanId: nil, formattedPrice: $0.displayPrice) } : nil
+            let found = Dictionary(uniqueKeysWithValues: try await client.products(ids: ids).map { ($0.id, $0) })
+            let priced = plans.filter { $0.basePlanId == nil }.compactMap { plan in
+                found[plan.productId].map { PricedPlan(productId: plan.productId, basePlanId: nil, formattedPrice: $0.displayPrice) }
             }
             return ProductsReply(result: .ok, products: priced)
         } catch let error as StoreError {
