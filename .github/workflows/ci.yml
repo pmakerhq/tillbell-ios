@@ -1,25 +1,31 @@
 name: CI
 
+# macOS minutes are expensive: one job, two commands, and nothing for documentation-only changes.
 on:
   push:
     branches: [main]
+    paths-ignore: ["**.md", "LICENSE"]
   pull_request:
+    paths-ignore: ["**.md", "LICENSE"]
 
 permissions:
   contents: read
 
+# A new push to a pull request cancels the run of the previous one.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: macos-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - run: swift --version
-      - run: swift build
+      # Unit and contract tests of the StoreKit logic, on the Mac.
       - run: swift test
-      # swift build covers the StoreKit logic on macOS; the bridge component builds for iOS only.
-      - run: xcodebuild -scheme Tillbell -destination 'generic/platform=iOS Simulator' build
-      # The example app links the package like a host app would. Its StoreKit integration tests
-      # are compiled here; they run on an iOS 27 simulator (see the README).
+      # The example app builds the package for iOS like a host app would, the bridge component
+      # included, and compiles the StoreKit integration tests (they run locally, see the README).
       - run: xcodebuild -project Example/TillbellExample.xcodeproj -scheme TillbellExample -destination 'generic/platform=iOS Simulator' build-for-testing
