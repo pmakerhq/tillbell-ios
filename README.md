@@ -18,7 +18,7 @@ Hotwire.registerBridgeComponents([TillbellComponent.self])
 That one line is all the native setup there is.
 
 > [!WARNING]
-> **Status: v0.1, early.** The component implements the whole [bridge contract](https://github.com/pmakerhq/tillbell-rails/blob/main/docs/bridge-contract.md) and is unit tested, but it has not been verified with real App Store purchases yet. tillbell-rails verifies **Google Play** purchases only for now: until it verifies App Store transactions, an iOS purchase reaches your server but is not recorded. Expect changes before 1.0.
+> **Status: v0.2, early.** The component implements the whole [bridge contract](https://github.com/pmakerhq/tillbell-rails/blob/main/docs/bridge-contract.md) and is unit tested, but it has not been verified with real App Store purchases yet. It needs tillbell-rails 0.6 or later, the first version that verifies App Store transactions (see its [App Store setup](https://github.com/pmakerhq/tillbell-rails#app-store-setup)). Expect changes before 1.0.
 
 ## Table of contents
 
@@ -51,6 +51,7 @@ The page then posts the signed transaction to your Rails app, which verifies it 
 |---|---|---|
 | iOS | 15.0 | StoreKit 2 needs iOS 15. |
 | Hotwire Native iOS | 1.3.1 or later (1.x) | The component extends its `BridgeComponent`. |
+| tillbell-rails | 0.6 or later | The first version that verifies App Store transactions and accepts `pending` without a token. |
 | Xcode | 16 or later | The package uses Swift tools 6.0. |
 
 No other dependency.
@@ -65,13 +66,13 @@ Tillbell is a Swift package, referenced straight from this repository.
 https://github.com/pmakerhq/tillbell-ios
 ```
 
-Keep the suggested rule, *Up to Next Major Version* from `0.1.0`. Before 1.0, prefer *Up to Next Minor Version*: a minor release can change the API.
+Choose *Up to Next Minor Version* from `0.2.0`: before 1.0, a minor release can change the API or require a newer tillbell-rails, so you move to it on purpose.
 
 **In a `Package.swift`:**
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/pmakerhq/tillbell-ios", .upToNextMinor(from: "0.1.0")),
+    .package(url: "https://github.com/pmakerhq/tillbell-ios", .upToNextMinor(from: "0.2.0")),
 ],
 targets: [
     .target(name: "MyApp", dependencies: [.product(name: "Tillbell", package: "tillbell-ios")]),
@@ -116,7 +117,7 @@ The component coexists with any other bridge component and with other StoreKit c
 - **Transactions are finished on the device.** On iOS only the app can finish a transaction, so the component finishes it right after StoreKit returns it, and finishes the subscription transactions that arrive later (an Ask to Buy approval, a purchase interrupted when the app was killed) from `Transaction.updates`, once the paywall has sent its first message; until then StoreKit keeps them. Other product types are left to your own StoreKit code. Finishing does not grant access, and loses nothing: `restore` still lists the subscription.
 - **Already subscribed** answers `already_owned` without opening the sheet, as on Google Play, and the page restores the purchase.
 - **Plan changes** need nothing from the device. When the page sends `oldPurchaseToken` and `replacementMode`, both are checked and the App Store replaces the subscription of the same subscription group: at once for an upgrade, at the next renewal for a downgrade, by the levels you set in App Store Connect. The reply carries the transaction StoreKit returns.
-- **Ask to Buy** (and other purchases waiting for approval) replies `error` with a message: the contract's `pending` carries a purchase token and StoreKit gives none until the purchase is approved. The server learns about the approval from App Store Server Notifications.
+- **Ask to Buy** (and other purchases waiting for approval) replies `pending` with the `productId` and no `purchaseToken`: StoreKit gives none until the purchase is approved. The paywall shows its pending message, and the server records the purchase from App Store Server Notifications once it is approved.
 - **Every request gets one reply**, including errors and malformed requests, so the page never waits forever. The purchase in flight outlives the page: if the customer leaves it while the sheet is open, the transaction is still finished, and `restore` returns it.
 - **Restore** reads `Transaction.currentEntitlements` and never shows an Apple Account sign-in prompt. It lists the subscriptions the account bought, not those shared with it through Family Sharing: they carry another customer's `appAccountToken`.
 
@@ -133,7 +134,7 @@ The [bridge contract](https://github.com/pmakerhq/tillbell-rails/blob/main/docs/
 | `purchaseToken` | `VerificationResult<Transaction>.jwsRepresentation` |
 | `oldPurchaseToken`, `replacementMode` | Checked, then handled by the App Store from the subscription group |
 | `purchased` | `.success(.verified)` |
-| `pending` | Never sent, see Ask to Buy above |
+| `pending` | `.pending` (Ask to Buy), without `purchaseToken` |
 | `canceled` | `.userCancelled` |
 | `already_owned` | A current entitlement, bought by this account, to the requested product |
 | `unavailable` | `AppStore.canMakePayments` is false, `notAvailableInStorefront`, `productUnavailable`, `purchaseNotAllowed` |

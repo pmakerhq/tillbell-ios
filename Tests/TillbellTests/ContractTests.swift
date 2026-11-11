@@ -27,6 +27,7 @@ final class ContractTests: XCTestCase {
         try assertMatches(ProductsReply(result: .unavailable, message: "BILLING_UNAVAILABLE"), "products.reply.unavailable")
         try assertMatches(PurchaseReply(result: .purchased, productId: "premium", purchaseToken: "purchase-token"), "purchase.reply.purchased")
         try assertMatches(PurchaseReply(result: .pending, productId: "premium", purchaseToken: "purchase-token"), "purchase.reply.pending")
+        try assertMatches(PurchaseReply(result: .pending, productId: "premium.monthly"), "purchase.reply.pending_approval")
         try assertMatches(PurchaseReply(result: .canceled), "purchase.reply.canceled")
         try assertMatches(PurchaseReply(result: .alreadyOwned), "purchase.reply.already_owned")
         try assertMatches(PurchaseReply(result: .unavailable), "purchase.reply.unavailable")
@@ -99,7 +100,7 @@ final class ContractTests: XCTestCase {
     private func jsonObject(_ data: Data) throws -> Any { try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) }
 
     // The subset of JSON Schema the contract uses: type, enum, const, minLength, maxLength,
-    // required, properties, additionalProperties: false, items, and if/then.
+    // required, properties, additionalProperties: false, items, and if/then (also inside allOf).
     private func validate(_ value: Any, against schema: [String: Any], path: String) throws {
         if let types = schema["type"] {
             let allowed = (types as? [String]) ?? [types as! String]
@@ -120,8 +121,10 @@ final class ContractTests: XCTestCase {
             for key in object.keys { XCTAssertNotNil(properties[key], "\(path): unexpected \(key)") }
         }
         for (key, child) in object { if let property = properties[key] { try validate(child, against: property, path: "\(path).\(key)") } }
-        if let condition = schema["if"] as? [String: Any], let then = schema["then"] as? [String: Any], matches(object, condition) {
-            try validate(object, against: then, path: path)
+        for rule in [schema] + (schema["allOf"] as? [[String: Any]] ?? []) {
+            if let condition = rule["if"] as? [String: Any], let then = rule["then"] as? [String: Any], matches(object, condition) {
+                try validate(object, against: then, path: path)
+            }
         }
     }
 
