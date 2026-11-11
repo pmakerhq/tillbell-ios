@@ -156,11 +156,11 @@ Signed transactions from a StoreKit configuration file are signed by Xcode, not 
 ## Development
 
 ```sh
-swift build && swift test
-xcodebuild -scheme Tillbell -destination 'generic/platform=iOS Simulator' build
+swift test
+xcodebuild -project Example/TillbellExample.xcodeproj -scheme TillbellExample -destination 'generic/platform=iOS Simulator' build-for-testing
 ```
 
-`swift test` runs the unit tests on the Mac: the StoreKit logic is tested against a fake StoreKit client, and every reply is checked against the contract's JSON Schemas, so the tests need neither a device nor the App Store. `xcodebuild` builds the bridge component, which needs iOS. CI runs both on every pull request.
+`swift test` runs the unit tests on the Mac: the StoreKit logic is tested against a fake StoreKit client, and every reply is checked against the contract's JSON Schemas, so the tests need neither a device nor the App Store. `xcodebuild` builds the example app for iOS, and with it the package and the bridge component, which needs iOS. CI runs these two commands on every pull request, and skips documentation-only changes.
 
 [`Example/`](Example) is the smallest app that registers the component. Its tests run the real StoreKit 2 code against StoreKitTest and [`Tillbell.storekit`](Example/Tillbell.storekit): prices, a purchase and its signed transaction (with every field tillbell-rails reads), restore, `already_owned`, an upgrade, a downgrade and Ask to Buy. CI compiles them. StoreKitTest needs a host app and a simulator, so they run apart from `swift test`:
 
