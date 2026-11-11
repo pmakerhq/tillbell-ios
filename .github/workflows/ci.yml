@@ -20,3 +20,6 @@ jobs:
       - run: swift test
       # swift build covers the StoreKit logic on macOS; the bridge component builds for iOS only.
       - run: xcodebuild -scheme Tillbell -destination 'generic/platform=iOS Simulator' build
+      # The example app links the package like a host app would. Its StoreKit integration tests
+      # are compiled here; they run on an iOS 27 simulator (see the README).
+      - run: xcodebuild -project Example/TillbellExample.xcodeproj -scheme TillbellExample -destination 'generic/platform=iOS Simulator' build-for-testing
