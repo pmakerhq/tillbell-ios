@@ -66,7 +66,7 @@ Tillbell is a Swift package, referenced straight from this repository.
 https://github.com/pmakerhq/tillbell-ios
 ```
 
-Keep the suggested rule, *Up to Next Major Version* from `0.2.0`. Before 1.0, prefer *Up to Next Minor Version*: a minor release can change the API.
+Choose *Up to Next Minor Version* from `0.2.0`: before 1.0, a minor release can change the API or require a newer tillbell-rails, so you move to it on purpose.
 
 **In a `Package.swift`:**
 
