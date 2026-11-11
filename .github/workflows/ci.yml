@@ -18,3 +18,5 @@ jobs:
       - run: swift --version
       - run: swift build
       - run: swift test
+      # swift build covers the StoreKit logic on macOS; the bridge component builds for iOS only.
+      - run: xcodebuild -scheme Tillbell -destination 'generic/platform=iOS Simulator' build
