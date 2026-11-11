@@ -3,7 +3,7 @@
 Issues and pull requests are welcome. Code, comments, documentation and commit messages are written in English.
 
 1. Open an issue first for anything larger than a small fix.
-2. Run `swift build` and `swift test` before you push, as CI does.
+2. Run `swift build`, `swift test` and the iOS `xcodebuild` build of the README before you push, as CI does.
 3. Keep a pull request focused on one change, with tests for the behavior it adds or fixes.
 4. Document every public type and function you add.
 
