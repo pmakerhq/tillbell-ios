@@ -162,7 +162,7 @@ xcodebuild -scheme Tillbell -destination 'generic/platform=iOS Simulator' build
 
 `swift test` runs the unit tests on the Mac: the StoreKit logic is tested against a fake StoreKit client, and every reply is checked against the contract's JSON Schemas, so the tests need neither a device nor the App Store. `xcodebuild` builds the bridge component, which needs iOS. CI runs both on every pull request.
 
-[`Example/`](Example) is the smallest app that registers the component. Its tests run the real StoreKit 2 code against StoreKitTest and [`Tillbell.storekit`](Example/Tillbell.storekit): prices, a purchase and its signed transaction (with every field tillbell-rails reads), finishing, restore, `already_owned`, a plan change and Ask to Buy. StoreKitTest needs a host app and a simulator, so they run apart from `swift test`:
+[`Example/`](Example) is the smallest app that registers the component. Its tests run the real StoreKit 2 code against StoreKitTest and [`Tillbell.storekit`](Example/Tillbell.storekit): prices, a purchase and its signed transaction (with every field tillbell-rails reads), finishing, restore, `already_owned`, an upgrade, a downgrade and Ask to Buy. CI compiles them. StoreKitTest needs a host app and a simulator, so they run apart from `swift test`:
 
 ```sh
 cd Example

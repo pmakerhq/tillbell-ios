@@ -15,14 +15,12 @@ targets:
     dependencies:
       - package: Tillbell
         product: Tillbell
-    info:
-      path: App/Info.plist
-      properties:
-        UILaunchScreen: {}
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
         CODE_SIGNING_ALLOWED: NO
+        SWIFT_VERSION: "6.0"
   TillbellExampleTests:
     type: bundle.unit-test
     platform: iOS
@@ -37,6 +35,7 @@ targets:
       base:
         GENERATE_INFOPLIST_FILE: YES
         CODE_SIGNING_ALLOWED: NO
+        SWIFT_VERSION: "6.0"
 schemes:
   TillbellExample:
     build:

@@ -30,7 +30,6 @@
 		58F53439540A021BCD8164F3 /* TillbellExample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TillbellExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B5323BFE590630F2F851C1C /* TillbellExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TillbellExampleApp.swift; sourceTree = "<group>"; };
 		E5BF9CD7119BFDFF95A38A40 /* Tillbell.storekit */ = {isa = PBXFileReference; path = Tillbell.storekit; sourceTree = "<group>"; };
-		E9FDC441A711B35B5DDEB669 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +63,6 @@
 		BC8344D55ECBC6C8C702C94D /* App */ = {
 			isa = PBXGroup;
 			children = (
-				E9FDC441A711B35B5DDEB669 /* Info.plist */,
 				6B5323BFE590630F2F851C1C /* TillbellExampleApp.swift */,
 			);
 			path = App;
@@ -211,13 +209,14 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pmaker.tillbell.TillbellExample;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -291,6 +290,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pmaker.tillbell.TillbellExampleTests;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TillbellExample.app/TillbellExample";
 			};
@@ -309,6 +309,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pmaker.tillbell.TillbellExampleTests;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TillbellExample.app/TillbellExample";
 			};
@@ -321,13 +322,14 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pmaker.tillbell.TillbellExample;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

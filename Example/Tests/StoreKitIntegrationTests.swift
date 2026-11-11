@@ -11,6 +11,9 @@ import XCTest
 @MainActor
 final class StoreKitIntegrationTests: XCTestCase {
     private let accountId = "6f1c2a8e-3b7d-4e59-9a0c-2d4f8b1e7c35"
+    // One client for every test, as in an app: each client starts a Transaction.updates
+    // listener that lives as long as it does.
+    private static let client = AppStoreClient()
     private var session: SKTestSession!
     private var store: TillbellStore!
 
@@ -19,7 +22,7 @@ final class StoreKitIntegrationTests: XCTestCase {
         session.resetToDefaultState()
         session.clearTransactions()
         session.disableDialogs = true
-        store = TillbellStore(client: AppStoreClient())
+        store = TillbellStore(client: Self.client)
     }
 
     override func tearDown() async throws {
@@ -68,7 +71,8 @@ final class StoreKitIntegrationTests: XCTestCase {
     }
 
     func testAPlanChangeRepliesWithTheNewProduct() async throws {
-        _ = await store.purchase(PurchaseRequest(productId: "premium.monthly", obfuscatedAccountId: accountId))
+        let first = await store.purchase(PurchaseRequest(productId: "premium.monthly", obfuscatedAccountId: accountId))
+        XCTAssertEqual(first.result, .purchased, first.message ?? "")
         let restored = await store.restore()
         let oldToken = try XCTUnwrap(restored.purchases?.first?.purchaseToken)
 
@@ -83,6 +87,25 @@ final class StoreKitIntegrationTests: XCTestCase {
         let old = try jwsPayload(oldToken)
         let new = try jwsPayload(XCTUnwrap(reply.purchaseToken))
         XCTAssertEqual(new["originalTransactionId"] as? String, old["originalTransactionId"] as? String)
+    }
+
+    func testADowngradeRepliesWithTheCurrentProductUntilTheRenewal() async throws {
+        let first = await store.purchase(PurchaseRequest(productId: "premium.yearly", obfuscatedAccountId: accountId))
+        XCTAssertEqual(first.result, .purchased, first.message ?? "")
+
+        // premium.monthly is the lower level: the App Store moves to it at the next renewal.
+        var change = PurchaseRequest(productId: "premium.monthly", obfuscatedAccountId: accountId)
+        change.oldPurchaseToken = try XCTUnwrap(first.purchaseToken)
+        change.replacementMode = .DEFERRED
+        let reply = await store.purchase(change)
+
+        XCTAssertEqual(reply.result, .purchased, reply.message ?? "")
+        let old = try jwsPayload(XCTUnwrap(first.purchaseToken))
+        let new = try jwsPayload(XCTUnwrap(reply.purchaseToken))
+        XCTAssertEqual(new["originalTransactionId"] as? String, old["originalTransactionId"] as? String)
+        // Until the renewal the subscription stays on the current product; the server reads the
+        // pending change from the renewal information of App Store Server Notifications.
+        XCTAssertEqual(reply.productId, "premium.yearly")
     }
 
     func testAskToBuyIsPendingWithoutAToken() async {
@@ -108,7 +131,9 @@ final class StoreKitIntegrationTests: XCTestCase {
     }
 
     private func jwsPayload(_ jws: String) throws -> [String: Any] {
-        var part = String(jws.split(separator: ".")[1]).replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
+        let parts = jws.split(separator: ".", omittingEmptySubsequences: false)
+        guard parts.count == 3 else { throw URLError(.cannotDecodeContentData, userInfo: [NSLocalizedDescriptionKey: "Not a JWS: \(jws)"]) }
+        var part = String(parts[1]).replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
         part += String(repeating: "=", count: (4 - part.count % 4) % 4)
         let data = try XCTUnwrap(Data(base64Encoded: part))
         return try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
