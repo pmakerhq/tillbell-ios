@@ -10,8 +10,22 @@ final class TillbellStore {
 
     private let client: StoreClient
 
+    /// Hosts of the pages allowed to talk to the store, or nil to accept every page. See
+    /// `TillbellComponent.allowedHosts`.
+    var allowedHosts: Set<String>?
+
     init(client: StoreClient) {
         self.client = client
+    }
+
+    /// True when the page that sent `jsonData` may talk to the store: its `metadata.url`, added
+    /// by the bridge, is on one of `allowedHosts` (any page without them). A message without a
+    /// readable URL is refused once hosts are set.
+    func isTrusted(jsonData: String) -> Bool {
+        guard let allowedHosts else { return true }
+        guard let message: MessageMetadata = decode(jsonData),
+              let host = URLComponents(string: message.metadata.url)?.host?.lowercased() else { return false }
+        return allowedHosts.contains { $0.lowercased() == host }
     }
 
     /// Prices of the requested [plans]. Plans the App Store does not know are left out, and so
@@ -84,6 +98,15 @@ final class TillbellStore {
     /// The JSON reply to a `products`, `purchase` or `restore` message, or nil for messages that
     /// get no reply. A malformed request gets an `error` reply, so the page never waits forever.
     func answer(event: String, jsonData: String) async -> String? {
+        if !isTrusted(jsonData: jsonData) {
+            let message = "The page is not on an allowed host"
+            switch event {
+            case "products": return encode(ProductsReply(result: .error, message: message))
+            case "purchase": return encode(PurchaseReply(result: .error, message: message))
+            case "restore": return encode(RestoreReply(result: .error, message: message))
+            default: return nil
+            }
+        }
         switch event {
         case "products":
             let reply = if let request: ProductsRequest = decode(jsonData) {
@@ -109,7 +132,13 @@ final class TillbellStore {
 
 private let cannotPayMessage = "AppStore.canMakePayments is false"
 
-// The bridge adds a `metadata` object to every message from the page; decoding ignores it.
+// The `metadata` object the bridge adds to every message from the page: the URL of the page.
+private struct MessageMetadata: Decodable {
+    struct Metadata: Decodable { let url: String }
+    let metadata: Metadata
+}
+
+// The bridge adds a `metadata` object to every message from the page; decoding requests ignores it.
 private func decode<T: Decodable>(_ jsonData: String) -> T? {
     try? JSONDecoder().decode(T.self, from: Data(jsonData.utf8))
 }

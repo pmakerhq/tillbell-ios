@@ -20,9 +20,33 @@ public final class TillbellComponent: BridgeComponent {
     /// The bridge component name the Tillbell paywall page talks to.
     override public nonisolated class var name: String { "tillbell" }
 
+    /// Hosts of the pages allowed to start a purchase, e.g. `["example.com"]`, compared with
+    /// the host of the page that sent the message. Messages from any other page (a link that
+    /// left your site inside the app) get an `error` reply, and `manage` is ignored. Nil, the
+    /// default, accepts every page the app shows. Set it at launch:
+    ///
+    /// ```swift
+    /// TillbellComponent.allowedHosts = [rootURL.host()!]
+    /// ```
+    @MainActor public static var allowedHosts: Set<String>? {
+        get { TillbellStore.shared.allowedHosts }
+        set { TillbellStore.shared.allowedHosts = newValue }
+    }
+
+    /// Starts listening to App Store transactions now rather than with the first paywall
+    /// message, as Apple recommends: renewals and Ask to Buy approvals that arrive while the
+    /// app runs are finished at once. Call it in `application(_:didFinishLaunchingWithOptions:)`.
+    @MainActor public static func start() {
+        _ = TillbellStore.shared
+    }
+
     /// Handles a message from the paywall page.
     override public func onReceive(message: HotwireNative.Message) {
         if message.event == "manage" {
+            guard TillbellStore.shared.isTrusted(jsonData: message.jsonData) else {
+                logger.warning("Ignoring manage from a page outside the allowed hosts")
+                return
+            }
             manageSubscriptions()
             return
         }

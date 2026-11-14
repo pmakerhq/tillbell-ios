@@ -43,6 +43,30 @@ final class TillbellStoreTests: XCTestCase {
         store = TillbellStore(client: client)
     }
 
+    // MARK: allowed hosts
+
+    func testEveryPageIsTrustedWithoutAllowedHosts() async {
+        let reply = await store.answer(event: "restore", jsonData: #"{"metadata":{"url":"https://elsewhere.test/page"}}"#)
+        XCTAssertTrue(reply?.contains(#""result":"ok""#) ?? false)
+        XCTAssertTrue(store.isTrusted(jsonData: "{}"))
+    }
+
+    func testOnlyPagesOnAnAllowedHostReachTheStore() async {
+        store.allowedHosts = ["Example.com"]
+
+        XCTAssertTrue(store.isTrusted(jsonData: #"{"metadata":{"url":"https://example.com/paywall"}}"#))
+        XCTAssertFalse(store.isTrusted(jsonData: #"{"metadata":{"url":"https://evil.test/example.com"}}"#))
+        XCTAssertFalse(store.isTrusted(jsonData: #"{"metadata":{"url":"https://example.com.evil.test/"}}"#))
+        XCTAssertFalse(store.isTrusted(jsonData: "{}"))
+
+        let purchase = #"{"productId":"premium.monthly","obfuscatedAccountId":"\#(accountId)","metadata":{"url":"https://evil.test/"}}"#
+        let reply = await store.answer(event: "purchase", jsonData: purchase)
+        XCTAssertTrue(reply?.contains(#""result":"error""#) ?? false)
+        XCTAssertTrue(client.purchases.isEmpty)
+        let restore = await store.answer(event: "restore", jsonData: #"{"metadata":{"url":"https://evil.test/"}}"#)
+        XCTAssertTrue(restore?.contains(#""result":"error""#) ?? false)
+    }
+
     // MARK: products
 
     func testPricesComeFromTheAppStoreInTheRequestedOrder() async {
