@@ -26,8 +26,12 @@ public final class TillbellComponent: BridgeComponent {
     /// default, accepts every page the app shows. Set it at launch:
     ///
     /// ```swift
-    /// TillbellComponent.allowedHosts = [rootURL.host()!]
+    /// TillbellComponent.allowedHosts = [rootURL.host!]
     /// ```
+    ///
+    /// It checks the page shown in the web view, not the frames inside it: Hotwire Native does
+    /// not tell which frame sent a message, so keep third-party iframes off your paywall pages.
+    /// Setting it also starts listening to App Store transactions, as `start()` does.
     @MainActor public static var allowedHosts: Set<String>? {
         get { TillbellStore.shared.allowedHosts }
         set { TillbellStore.shared.allowedHosts = newValue }
@@ -44,7 +48,8 @@ public final class TillbellComponent: BridgeComponent {
     override public func onReceive(message: HotwireNative.Message) {
         if message.event == "manage" {
             guard TillbellStore.shared.isTrusted(jsonData: message.jsonData) else {
-                logger.warning("Ignoring manage from a page outside the allowed hosts")
+                let host = TillbellStore.shared.pageHost(jsonData: message.jsonData)
+                logger.warning("Ignoring manage from \(host, privacy: .public), outside the allowed hosts")
                 return
             }
             manageSubscriptions()

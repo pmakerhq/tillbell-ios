@@ -55,9 +55,9 @@ final class AppStoreClient: StoreClient {
     init() {
         // Subscription purchases completed outside the purchase sheet (Ask to Buy approved,
         // renewals, a purchase interrupted by the app being killed) arrive here, unfinished ones
-        // as soon as this listener starts: at launch with `TillbellComponent.start()`, otherwise
-        // with the first paywall message, since the client is created lazily. Until then StoreKit
-        // keeps them, nothing is lost. The server hears about
+        // as soon as this listener starts: at launch with `TillbellComponent.start()` (or
+        // `allowedHosts`), otherwise with the first paywall message, since the client is created
+        // lazily. Until then StoreKit keeps them, nothing is lost. The server hears about
         // them from App Store Server Notifications; the device only finishes them. Other product
         // types belong to the host app's own StoreKit code and are left alone.
         // The client lives as long as the process, so the task is never cancelled.

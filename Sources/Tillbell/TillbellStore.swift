@@ -21,11 +21,20 @@ final class TillbellStore {
     /// True when the page that sent `jsonData` may talk to the store: its `metadata.url`, added
     /// by the bridge, is on one of `allowedHosts` (any page without them). A message without a
     /// readable URL is refused once hosts are set.
+    ///
+    /// `URL.host` keeps an internationalized host in punycode, as the web view reports it and
+    /// as `URL.host` gives it for the app's own root URL; `URLComponents` would decode it.
     func isTrusted(jsonData: String) -> Bool {
         guard let allowedHosts else { return true }
         guard let message: MessageMetadata = decode(jsonData),
-              let host = URLComponents(string: message.metadata.url)?.host?.lowercased() else { return false }
+              let host = URL(string: message.metadata.url)?.host?.lowercased() else { return false }
         return allowedHosts.contains { $0.lowercased() == host }
+    }
+
+    /// The host of the page that sent `jsonData`, for logs.
+    func pageHost(jsonData: String) -> String {
+        let message: MessageMetadata? = decode(jsonData)
+        return message.flatMap { URL(string: $0.metadata.url)?.host } ?? "unknown"
     }
 
     /// Prices of the requested [plans]. Plans the App Store does not know are left out, and so

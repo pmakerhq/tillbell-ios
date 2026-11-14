@@ -58,6 +58,12 @@ final class TillbellStoreTests: XCTestCase {
         XCTAssertFalse(store.isTrusted(jsonData: #"{"metadata":{"url":"https://evil.test/example.com"}}"#))
         XCTAssertFalse(store.isTrusted(jsonData: #"{"metadata":{"url":"https://example.com.evil.test/"}}"#))
         XCTAssertFalse(store.isTrusted(jsonData: "{}"))
+        XCTAssertFalse(store.isTrusted(jsonData: #"{"metadata":{"url":"https://example.com@evil.test/"}}"#))
+        XCTAssertTrue(store.isTrusted(jsonData: #"{"metadata":{"url":"https://EXAMPLE.com:8443/paywall"}}"#))
+        XCTAssertFalse(store.isTrusted(jsonData: #"{"metadata":{"url":"javascript:alert(1)"}}"#))
+
+        store.allowedHosts = [URL(string: "https://xn--bcher-kva.de")!.host!]
+        XCTAssertTrue(store.isTrusted(jsonData: #"{"metadata":{"url":"https://xn--bcher-kva.de/paywall"}}"#))
 
         let purchase = #"{"productId":"premium.monthly","obfuscatedAccountId":"\#(accountId)","metadata":{"url":"https://evil.test/"}}"#
         let reply = await store.answer(event: "purchase", jsonData: purchase)

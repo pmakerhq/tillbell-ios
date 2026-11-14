@@ -59,6 +59,11 @@ final class ContractTests: XCTestCase {
         }
         client.productsError = StoreError(unavailable: true, message: "x")
         replies.append(("products", await store.answer(event: "products", jsonData: #"{"products":[{"productId":"premium.monthly","basePlanId":null}]}"#)))
+        // Pages outside the allowed hosts get error replies.
+        store.allowedHosts = ["example.com"]
+        for event in ["products", "purchase", "restore"] {
+            replies.append((event, await store.answer(event: event, jsonData: #"{"metadata":{"url":"https://evil.test/"}}"#)))
+        }
 
         for (event, reply) in replies {
             let reply = try XCTUnwrap(reply, event)
