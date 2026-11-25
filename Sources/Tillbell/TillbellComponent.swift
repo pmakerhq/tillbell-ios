@@ -14,7 +14,8 @@ import UIKit
 /// ```
 ///
 /// It answers the page's `products`, `purchase` and `restore` messages, always, including on
-/// errors, and opens the App Store subscription management sheet on `manage`. It reports what
+/// errors, replies `unavailable` to `externalOffer` (the App Store has no external offers
+/// program), and opens the App Store subscription management sheet on `manage`. It reports what
 /// the App Store says and never grants access: the server verifies every purchase.
 public final class TillbellComponent: BridgeComponent {
     /// The bridge component name the Tillbell paywall page talks to.

@@ -21,7 +21,7 @@ struct ProductsRequest: Decodable {
     let products: [Plan]
 }
 
-/// Result of `products` and `restore`.
+/// Result of `products`, `restore` and `externalOffer`.
 enum QueryResult: String, Encodable {
     case ok, unavailable, error
 }
@@ -92,5 +92,12 @@ struct OwnedPurchase: Encodable, Equatable {
 struct RestoreReply: Encodable, Equatable {
     let result: QueryResult
     var purchases: [OwnedPurchase]?
+    var message: String?
+}
+
+/// `externalOffer` reply. The App Store has no external offers program, so the result is
+/// always `unavailable`; the contract's `canceled` and `externalTransactionToken` never apply.
+struct ExternalOfferReply: Encodable, Equatable {
+    let result: QueryResult
     var message: String?
 }

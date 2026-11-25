@@ -104,8 +104,9 @@ final class TillbellStore {
         return RestoreReply(result: .ok, purchases: purchases)
     }
 
-    /// The JSON reply to a `products`, `purchase` or `restore` message, or nil for messages that
-    /// get no reply. A malformed request gets an `error` reply, so the page never waits forever.
+    /// The JSON reply to a `products`, `purchase`, `restore` or `externalOffer` message, or nil
+    /// for messages that get no reply. A malformed request gets an `error` reply, so the page
+    /// never waits forever, except `externalOffer`, which is always `unavailable` on the App Store.
     func answer(event: String, jsonData: String) async -> String? {
         if !isTrusted(jsonData: jsonData) {
             let message = "The page is not on an allowed host"
@@ -113,6 +114,7 @@ final class TillbellStore {
             case "products": return encode(ProductsReply(result: .error, message: message))
             case "purchase": return encode(PurchaseReply(result: .error, message: message))
             case "restore": return encode(RestoreReply(result: .error, message: message))
+            case "externalOffer": return encode(ExternalOfferReply(result: .error, message: message))
             default: return nil
             }
         }
@@ -133,6 +135,10 @@ final class TillbellStore {
             return encode(reply)
         case "restore":
             return encode(await restore())
+        case "externalOffer":
+            // The request is not even decoded: whatever its action, and malformed too, the
+            // App Store has no external offers program, so the page keeps the in-app purchase.
+            return encode(ExternalOfferReply(result: .unavailable, message: "The App Store has no external offers program"))
         default:
             return nil
         }

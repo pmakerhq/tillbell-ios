@@ -34,6 +34,7 @@ final class ContractTests: XCTestCase {
         try assertMatches(PurchaseReply(result: .error, message: "DEVELOPER_ERROR"), "purchase.reply.error")
         try assertMatches(RestoreReply(result: .ok, purchases: [OwnedPurchase(productId: "premium", purchaseToken: "purchase-token")]), "restore.reply.ok")
         try assertMatches(RestoreReply(result: .ok, purchases: []), "restore.reply.empty")
+        try assertMatches(ExternalOfferReply(result: .unavailable, message: "BILLING_UNAVAILABLE"), "externalOffer.reply.unavailable")
     }
 
     func testANullBasePlanIsEncodedAsNull() throws {
@@ -57,11 +58,16 @@ final class ContractTests: XCTestCase {
             client.outcome = outcome
             replies.append(("purchase", await store.answer(event: "purchase", jsonData: validPurchase)))
         }
+        for request in ["availability", "token", "launch"] {
+            let jsonData = try String(decoding: Data(contentsOf: contractURL("examples/externalOffer.request.\(request).json")), as: UTF8.self)
+            replies.append(("externalOffer", await store.answer(event: "externalOffer", jsonData: jsonData)))
+        }
+        replies.append(("externalOffer", await store.answer(event: "externalOffer", jsonData: "not json")))
         client.productsError = StoreError(unavailable: true, message: "x")
         replies.append(("products", await store.answer(event: "products", jsonData: #"{"products":[{"productId":"premium.monthly","basePlanId":null}]}"#)))
         // Pages outside the allowed hosts get error replies.
         store.allowedHosts = ["example.com"]
-        for event in ["products", "purchase", "restore"] {
+        for event in ["products", "purchase", "restore", "externalOffer"] {
             replies.append((event, await store.answer(event: event, jsonData: #"{"metadata":{"url":"https://evil.test/"}}"#)))
         }
 
