@@ -208,6 +208,21 @@ final class TillbellStoreTests: XCTestCase {
         ]))
     }
 
+    // MARK: externalOffer
+
+    func testExternalOfferIsAlwaysUnavailableOnTheAppStore() async {
+        let unavailable: NSDictionary = ["result": "unavailable", "message": "The App Store has no external offers program"]
+        for jsonData in [#"{"action":"availability"}"#, #"{"action":"token"}"#, #"{"action":"launch","url":"https://example.com/checkout"}"#, "not json"] {
+            let reply = await store.answer(event: "externalOffer", jsonData: jsonData)
+            let json = try? JSONSerialization.jsonObject(with: Data((reply ?? "").utf8)) as? NSDictionary
+            XCTAssertEqual(json, unavailable, jsonData)
+        }
+
+        store.allowedHosts = ["example.com"]
+        let refused = await store.answer(event: "externalOffer", jsonData: #"{"action":"availability","metadata":{"url":"https://evil.test/"}}"#)
+        XCTAssertTrue(refused?.contains(#""result":"error""#) ?? false)
+    }
+
     private func request(_ productId: String) -> PurchaseRequest {
         PurchaseRequest(productId: productId, obfuscatedAccountId: accountId)
     }

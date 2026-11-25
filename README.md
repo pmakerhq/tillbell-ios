@@ -43,6 +43,8 @@ Your paywall is a normal server-rendered Rails page, with the `tillbell` Stimulu
 3. list the subscriptions the App Store account is entitled to (`restore`);
 4. open the App Store sheet where the customer manages their subscriptions (`manage`).
 
+It replies `unavailable` to `externalOffer`, Google Play's external offers program: the App Store has none, so the page keeps the in-app purchase.
+
 The page then posts the signed transaction to your Rails app, which verifies it and unlocks the subscription. All business logic (who is subscribed, until when, in which state) stays in Rails.
 
 ## Requirements
@@ -146,6 +148,7 @@ The [bridge contract](https://github.com/pmakerhq/tillbell-rails/blob/main/docs/
 | `unavailable` | `AppStore.canMakePayments` is false, `notAvailableInStorefront`, `productUnavailable`, `purchaseNotAllowed` |
 | `restore` | `Transaction.currentEntitlements`, without family-shared ones |
 | `manage` | `AppStore.showManageSubscriptions(in:)`, or `https://apps.apple.com/account/subscriptions` |
+| `externalOffer` | Always `unavailable`, malformed requests too: the App Store has no external offers program |
 
 So on iOS, the paywall names App Store product identifiers with no base plan, for example `plan_option(product_id: "premium.monthly")`.
 

@@ -5,6 +5,9 @@ JSON Schemas (draft 2020-12) and examples of the Tillbell bridge contract, copie
 (commit `1732c157b73e808138a54820e29261d576766aff`, pull request pmakerhq/tillbell-rails#5, which
 allows `pending` without `purchaseToken`).
 
+The `externalOffer` schemas and examples come from the tillbell-rails change that adds the
+`externalOffer` message, not yet released: they replace this note once it ships.
+
 The unit tests check every reply the component builds against these schemas. To update the
 contract, copy the `contract/` directory of a newer tillbell-rails release here and update the
 version above.
